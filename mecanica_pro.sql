@@ -1,24 +1,23 @@
 /*
  Navicat Premium Dump SQL
 
- Source Server         : ecommerce
+ Source Server         : proyectos
  Source Server Type    : MySQL
- Source Server Version : 100527 (10.5.27-MariaDB)
- Source Host           : 173.249.36.119:3306
+ Source Server Version : 100529 (10.5.29-MariaDB)
+ Source Host           : 84.247.162.204:3306
  Source Schema         : mecanica_pro
 
  Target Server Type    : MySQL
- Target Server Version : 100527 (10.5.27-MariaDB)
+ Target Server Version : 100529 (10.5.29-MariaDB)
  File Encoding         : 65001
 
- Date: 25/04/2026 09:06:33
+ Date: 25/04/2026 11:49:55
 */
 
-CREATE DATABASE IF NOT EXISTS mecanica_pro
-  CHARACTER SET utf8mb4
-  COLLATE utf8mb4_unicode_ci;
-
-USE mecanica_pro;
+DROP DATABASE IF EXISTS `mecanica_pro`;
+CREATE DATABASE `mecanica_pro` CHARACTER SET = utf8mb4 
+COLLATE = utf8mb4_unicode_ci;
+USE `mecanica_pro`;
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
@@ -43,7 +42,7 @@ CREATE TABLE `caja_movimientos`  (
   INDEX `idx_fecha`(`created_at` ASC) USING BTREE,
   CONSTRAINT `caja_movimientos_ibfk_1` FOREIGN KEY (`sesion_id`) REFERENCES `caja_sesiones` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `caja_movimientos_ibfk_2` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of caja_movimientos
@@ -64,7 +63,7 @@ CREATE TABLE `caja_sesiones`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `usuario_id`(`usuario_id` ASC) USING BTREE,
   CONSTRAINT `caja_sesiones_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of caja_sesiones
@@ -79,7 +78,7 @@ CREATE TABLE `categorias_repuesto`  (
   `nombre` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `activo` tinyint(1) NULL DEFAULT 1,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of categorias_repuesto
@@ -102,7 +101,7 @@ CREATE TABLE `categorias_servicio`  (
   `descripcion` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL,
   `activo` tinyint(1) NULL DEFAULT 1,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of categorias_servicio
@@ -141,11 +140,12 @@ CREATE TABLE `clientes`  (
   UNIQUE INDEX `documento`(`documento` ASC) USING BTREE,
   INDEX `idx_nombre`(`nombre` ASC) USING BTREE,
   INDEX `idx_telefono`(`telefono` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of clientes
 -- ----------------------------
+INSERT INTO `clientes` VALUES (1, 'Manuel Aguado Sierra', 'DNI', '42799312', '972781904', 'systemcraft.pe@gmail.com', 'Santa Anita', 'natural', 0.00, 0.00, NULL, 1, '2026-04-25 17:03:25', '2026-04-25 17:03:25');
 
 -- ----------------------------
 -- Table structure for comprobantes
@@ -178,11 +178,12 @@ CREATE TABLE `comprobantes`  (
   CONSTRAINT `comprobantes_ibfk_1` FOREIGN KEY (`cliente_id`) REFERENCES `clientes` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `comprobantes_ibfk_2` FOREIGN KEY (`ot_id`) REFERENCES `ordenes_trabajo` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `comprobantes_ibfk_3` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of comprobantes
 -- ----------------------------
+INSERT INTO `comprobantes` VALUES (1, 1, NULL, 'nota_venta', 'NV01-00000001', 'NV01', 1, 'yape', 200.00, 0.00, 0.00, 200.00, 0, '2026-04-25 17:37:41', 1, '2026-04-25 17:37:41');
 
 -- ----------------------------
 -- Table structure for comprobantes_detalle
@@ -198,11 +199,13 @@ CREATE TABLE `comprobantes_detalle`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `comprobante_id`(`comprobante_id` ASC) USING BTREE,
   CONSTRAINT `comprobantes_detalle_ibfk_1` FOREIGN KEY (`comprobante_id`) REFERENCES `comprobantes` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of comprobantes_detalle
 -- ----------------------------
+INSERT INTO `comprobantes_detalle` VALUES (1, 1, 'Lavado', 1, 50.00, 50.00);
+INSERT INTO `comprobantes_detalle` VALUES (2, 1, 'Cambio de Motor', 1, 150.00, 150.00);
 
 -- ----------------------------
 -- Table structure for kardex
@@ -225,7 +228,7 @@ CREATE TABLE `kardex`  (
   INDEX `idx_fecha`(`created_at` ASC) USING BTREE,
   CONSTRAINT `kardex_ibfk_1` FOREIGN KEY (`repuesto_id`) REFERENCES `repuestos` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `kardex_ibfk_2` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of kardex
@@ -249,7 +252,7 @@ CREATE TABLE `ordenes_compra`  (
   INDEX `usuario_id`(`usuario_id` ASC) USING BTREE,
   CONSTRAINT `ordenes_compra_ibfk_1` FOREIGN KEY (`proveedor_id`) REFERENCES `proveedores` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `ordenes_compra_ibfk_2` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of ordenes_compra
@@ -270,7 +273,7 @@ CREATE TABLE `ordenes_compra_detalle`  (
   INDEX `repuesto_id`(`repuesto_id` ASC) USING BTREE,
   CONSTRAINT `ordenes_compra_detalle_ibfk_1` FOREIGN KEY (`oc_id`) REFERENCES `ordenes_compra` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT,
   CONSTRAINT `ordenes_compra_detalle_ibfk_2` FOREIGN KEY (`repuesto_id`) REFERENCES `repuestos` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of ordenes_compra_detalle
@@ -314,11 +317,12 @@ CREATE TABLE `ordenes_trabajo`  (
   CONSTRAINT `ordenes_trabajo_ibfk_2` FOREIGN KEY (`vehiculo_id`) REFERENCES `vehiculos` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `ordenes_trabajo_ibfk_3` FOREIGN KEY (`tecnico_id`) REFERENCES `tecnicos` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `ordenes_trabajo_ibfk_4` FOREIGN KEY (`usuario_creacion`) REFERENCES `usuarios` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of ordenes_trabajo
 -- ----------------------------
+INSERT INTO `ordenes_trabajo` VALUES (1, 'OT-000001', 1, 1, 1, 1, 'terminado', 'normal', 25000, NULL, 'Reparacion de Motor', 'Rayaduras leves ', NULL, 0.00, 0.00, NULL, NULL, NULL, 1, '2026-04-25 17:08:49', '2026-04-25 18:24:24');
 
 -- ----------------------------
 -- Table structure for ot_evidencias
@@ -337,7 +341,7 @@ CREATE TABLE `ot_evidencias`  (
   INDEX `usuario_id`(`usuario_id` ASC) USING BTREE,
   CONSTRAINT `ot_evidencias_ibfk_1` FOREIGN KEY (`ot_id`) REFERENCES `ordenes_trabajo` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT,
   CONSTRAINT `ot_evidencias_ibfk_2` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of ot_evidencias
@@ -360,11 +364,16 @@ CREATE TABLE `ot_historial`  (
   INDEX `usuario_id`(`usuario_id` ASC) USING BTREE,
   CONSTRAINT `ot_historial_ibfk_1` FOREIGN KEY (`ot_id`) REFERENCES `ordenes_trabajo` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT,
   CONSTRAINT `ot_historial_ibfk_2` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of ot_historial
 -- ----------------------------
+INSERT INTO `ot_historial` VALUES (1, 1, NULL, 'pendiente', 'OT creada', 1, '2026-04-25 17:08:49');
+INSERT INTO `ot_historial` VALUES (2, 1, 'pendiente', 'diagnostico', 'Cambio a diagnostico', 2, '2026-04-25 17:30:48');
+INSERT INTO `ot_historial` VALUES (3, 1, 'diagnostico', 'aprobado', 'Cambio a aprobado', 2, '2026-04-25 17:31:14');
+INSERT INTO `ot_historial` VALUES (4, 1, 'aprobado', 'en_proceso', 'Cambio a en_proceso', 2, '2026-04-25 17:31:22');
+INSERT INTO `ot_historial` VALUES (5, 1, 'en_proceso', 'terminado', 'Cambio a terminado', 1, '2026-04-25 18:24:24');
 
 -- ----------------------------
 -- Table structure for ot_repuestos
@@ -382,7 +391,7 @@ CREATE TABLE `ot_repuestos`  (
   INDEX `repuesto_id`(`repuesto_id` ASC) USING BTREE,
   CONSTRAINT `ot_repuestos_ibfk_1` FOREIGN KEY (`ot_id`) REFERENCES `ordenes_trabajo` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT,
   CONSTRAINT `ot_repuestos_ibfk_2` FOREIGN KEY (`repuesto_id`) REFERENCES `repuestos` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of ot_repuestos
@@ -407,10 +416,30 @@ CREATE TABLE `ot_servicios`  (
   CONSTRAINT `ot_servicios_ibfk_1` FOREIGN KEY (`ot_id`) REFERENCES `ordenes_trabajo` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT,
   CONSTRAINT `ot_servicios_ibfk_2` FOREIGN KEY (`servicio_id`) REFERENCES `servicios` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `ot_servicios_ibfk_3` FOREIGN KEY (`tecnico_id`) REFERENCES `tecnicos` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of ot_servicios
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for portal_tokens
+-- ----------------------------
+DROP TABLE IF EXISTS `portal_tokens`;
+CREATE TABLE `portal_tokens`  (
+  `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `ot_id` int UNSIGNED NOT NULL,
+  `token` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `ot_id`(`ot_id` ASC) USING BTREE,
+  UNIQUE INDEX `token`(`token` ASC) USING BTREE,
+  INDEX `idx_token`(`token` ASC) USING BTREE,
+  CONSTRAINT `portal_tokens_ibfk_1` FOREIGN KEY (`ot_id`) REFERENCES `ordenes_trabajo` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of portal_tokens
 -- ----------------------------
 
 -- ----------------------------
@@ -429,7 +458,7 @@ CREATE TABLE `proveedores`  (
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `ruc`(`ruc` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of proveedores
@@ -457,7 +486,7 @@ CREATE TABLE `recordatorios`  (
   INDEX `idx_enviado`(`enviado` ASC) USING BTREE,
   CONSTRAINT `recordatorios_ibfk_1` FOREIGN KEY (`cliente_id`) REFERENCES `clientes` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `recordatorios_ibfk_2` FOREIGN KEY (`vehiculo_id`) REFERENCES `vehiculos` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of recordatorios
@@ -490,7 +519,7 @@ CREATE TABLE `repuestos`  (
   INDEX `idx_nombre`(`nombre` ASC) USING BTREE,
   INDEX `idx_stock`(`stock_actual` ASC, `stock_minimo` ASC) USING BTREE,
   CONSTRAINT `repuestos_ibfk_1` FOREIGN KEY (`categoria_id`) REFERENCES `categorias_repuesto` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 18 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 18 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of repuestos
@@ -514,6 +543,97 @@ INSERT INTO `repuestos` VALUES (16, 7, 'Refrigerante 1L', 'REFRIG-1L', NULL, 'L'
 INSERT INTO `repuestos` VALUES (17, 7, 'Limpia bujías', 'LIMPIA-BUJ', NULL, 'und', 10.00, 18.00, 8, 3, 100, NULL, NULL, 1, '2026-04-17 18:00:45', '2026-04-17 18:00:45');
 
 -- ----------------------------
+-- Table structure for rol_permisos
+-- ----------------------------
+DROP TABLE IF EXISTS `rol_permisos`;
+CREATE TABLE `rol_permisos`  (
+  `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `rol_id` int UNSIGNED NOT NULL,
+  `modulo` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `ver` tinyint(1) NULL DEFAULT 0,
+  `crear` tinyint(1) NULL DEFAULT 0,
+  `editar` tinyint(1) NULL DEFAULT 0,
+  `eliminar` tinyint(1) NULL DEFAULT 0,
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `uk_rol_modulo`(`rol_id` ASC, `modulo` ASC) USING BTREE,
+  CONSTRAINT `rol_permisos_ibfk_1` FOREIGN KEY (`rol_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 71 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of rol_permisos
+-- ----------------------------
+INSERT INTO `rol_permisos` VALUES (1, 1, 'dashboard', 1, 1, 1, 1);
+INSERT INTO `rol_permisos` VALUES (2, 1, 'ots', 1, 1, 1, 1);
+INSERT INTO `rol_permisos` VALUES (3, 1, 'clientes', 1, 1, 1, 1);
+INSERT INTO `rol_permisos` VALUES (4, 1, 'vehiculos', 1, 1, 1, 1);
+INSERT INTO `rol_permisos` VALUES (5, 1, 'inventario', 1, 1, 1, 1);
+INSERT INTO `rol_permisos` VALUES (6, 1, 'servicios', 1, 1, 1, 1);
+INSERT INTO `rol_permisos` VALUES (7, 1, 'tecnicos', 1, 1, 1, 1);
+INSERT INTO `rol_permisos` VALUES (8, 1, 'ventas', 1, 1, 1, 1);
+INSERT INTO `rol_permisos` VALUES (9, 1, 'caja', 1, 1, 1, 1);
+INSERT INTO `rol_permisos` VALUES (10, 1, 'compras', 1, 1, 1, 1);
+INSERT INTO `rol_permisos` VALUES (11, 1, 'reportes', 1, 1, 1, 1);
+INSERT INTO `rol_permisos` VALUES (12, 1, 'whatsapp', 1, 1, 1, 1);
+INSERT INTO `rol_permisos` VALUES (13, 1, 'roles', 1, 1, 1, 1);
+INSERT INTO `rol_permisos` VALUES (14, 1, 'config', 1, 1, 1, 1);
+INSERT INTO `rol_permisos` VALUES (15, 2, 'dashboard', 1, 0, 0, 0);
+INSERT INTO `rol_permisos` VALUES (16, 2, 'ots', 1, 1, 1, 0);
+INSERT INTO `rol_permisos` VALUES (17, 2, 'clientes', 1, 1, 1, 0);
+INSERT INTO `rol_permisos` VALUES (18, 2, 'vehiculos', 1, 1, 1, 0);
+INSERT INTO `rol_permisos` VALUES (19, 2, 'inventario', 1, 1, 1, 0);
+INSERT INTO `rol_permisos` VALUES (20, 2, 'servicios', 1, 1, 1, 0);
+INSERT INTO `rol_permisos` VALUES (21, 2, 'tecnicos', 1, 1, 1, 0);
+INSERT INTO `rol_permisos` VALUES (22, 2, 'ventas', 1, 1, 0, 0);
+INSERT INTO `rol_permisos` VALUES (23, 2, 'caja', 1, 1, 0, 0);
+INSERT INTO `rol_permisos` VALUES (24, 2, 'compras', 1, 1, 0, 0);
+INSERT INTO `rol_permisos` VALUES (25, 2, 'reportes', 1, 0, 0, 0);
+INSERT INTO `rol_permisos` VALUES (26, 2, 'whatsapp', 1, 1, 0, 0);
+INSERT INTO `rol_permisos` VALUES (27, 2, 'roles', 0, 0, 0, 0);
+INSERT INTO `rol_permisos` VALUES (28, 2, 'config', 0, 0, 0, 0);
+INSERT INTO `rol_permisos` VALUES (29, 3, 'dashboard', 1, 0, 0, 0);
+INSERT INTO `rol_permisos` VALUES (30, 3, 'ots', 1, 1, 1, 0);
+INSERT INTO `rol_permisos` VALUES (31, 3, 'clientes', 1, 1, 1, 0);
+INSERT INTO `rol_permisos` VALUES (32, 3, 'vehiculos', 1, 1, 1, 0);
+INSERT INTO `rol_permisos` VALUES (33, 3, 'inventario', 1, 0, 0, 0);
+INSERT INTO `rol_permisos` VALUES (34, 3, 'servicios', 1, 0, 0, 0);
+INSERT INTO `rol_permisos` VALUES (35, 3, 'tecnicos', 1, 0, 0, 0);
+INSERT INTO `rol_permisos` VALUES (36, 3, 'ventas', 0, 0, 0, 0);
+INSERT INTO `rol_permisos` VALUES (37, 3, 'caja', 0, 0, 0, 0);
+INSERT INTO `rol_permisos` VALUES (38, 3, 'compras', 0, 0, 0, 0);
+INSERT INTO `rol_permisos` VALUES (39, 3, 'reportes', 0, 0, 0, 0);
+INSERT INTO `rol_permisos` VALUES (40, 3, 'whatsapp', 1, 1, 0, 0);
+INSERT INTO `rol_permisos` VALUES (41, 3, 'roles', 0, 0, 0, 0);
+INSERT INTO `rol_permisos` VALUES (42, 3, 'config', 0, 0, 0, 0);
+INSERT INTO `rol_permisos` VALUES (43, 4, 'dashboard', 1, 0, 0, 0);
+INSERT INTO `rol_permisos` VALUES (44, 4, 'ots', 1, 0, 0, 0);
+INSERT INTO `rol_permisos` VALUES (45, 4, 'clientes', 0, 0, 0, 0);
+INSERT INTO `rol_permisos` VALUES (46, 4, 'vehiculos', 0, 0, 0, 0);
+INSERT INTO `rol_permisos` VALUES (47, 4, 'inventario', 0, 0, 0, 0);
+INSERT INTO `rol_permisos` VALUES (48, 4, 'servicios', 0, 0, 0, 0);
+INSERT INTO `rol_permisos` VALUES (49, 4, 'tecnicos', 0, 0, 0, 0);
+INSERT INTO `rol_permisos` VALUES (50, 4, 'ventas', 0, 0, 0, 0);
+INSERT INTO `rol_permisos` VALUES (51, 4, 'caja', 0, 0, 0, 0);
+INSERT INTO `rol_permisos` VALUES (52, 4, 'compras', 0, 0, 0, 0);
+INSERT INTO `rol_permisos` VALUES (53, 4, 'reportes', 0, 0, 0, 0);
+INSERT INTO `rol_permisos` VALUES (54, 4, 'whatsapp', 0, 0, 0, 0);
+INSERT INTO `rol_permisos` VALUES (55, 4, 'roles', 0, 0, 0, 0);
+INSERT INTO `rol_permisos` VALUES (56, 4, 'config', 0, 0, 0, 0);
+INSERT INTO `rol_permisos` VALUES (57, 5, 'dashboard', 1, 0, 0, 0);
+INSERT INTO `rol_permisos` VALUES (58, 5, 'ots', 1, 0, 0, 0);
+INSERT INTO `rol_permisos` VALUES (59, 5, 'clientes', 1, 0, 0, 0);
+INSERT INTO `rol_permisos` VALUES (60, 5, 'vehiculos', 0, 0, 0, 0);
+INSERT INTO `rol_permisos` VALUES (61, 5, 'inventario', 1, 0, 0, 0);
+INSERT INTO `rol_permisos` VALUES (62, 5, 'servicios', 0, 0, 0, 0);
+INSERT INTO `rol_permisos` VALUES (63, 5, 'tecnicos', 0, 0, 0, 0);
+INSERT INTO `rol_permisos` VALUES (64, 5, 'ventas', 1, 1, 0, 0);
+INSERT INTO `rol_permisos` VALUES (65, 5, 'caja', 1, 1, 1, 0);
+INSERT INTO `rol_permisos` VALUES (66, 5, 'compras', 0, 0, 0, 0);
+INSERT INTO `rol_permisos` VALUES (67, 5, 'reportes', 1, 0, 0, 0);
+INSERT INTO `rol_permisos` VALUES (68, 5, 'whatsapp', 0, 0, 0, 0);
+INSERT INTO `rol_permisos` VALUES (69, 5, 'roles', 0, 0, 0, 0);
+INSERT INTO `rol_permisos` VALUES (70, 5, 'config', 0, 0, 0, 0);
+
+-- ----------------------------
 -- Table structure for roles
 -- ----------------------------
 DROP TABLE IF EXISTS `roles`;
@@ -524,7 +644,7 @@ CREATE TABLE `roles`  (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `nombre`(`nombre` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of roles
@@ -553,7 +673,7 @@ CREATE TABLE `servicios`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `categoria_id`(`categoria_id` ASC) USING BTREE,
   CONSTRAINT `servicios_ibfk_1` FOREIGN KEY (`categoria_id`) REFERENCES `categorias_servicio` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 18 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 18 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of servicios
@@ -599,12 +719,12 @@ CREATE TABLE `taller_config`  (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of taller_config
 -- ----------------------------
-INSERT INTO `taller_config` VALUES (1, 'Mi Taller Mecánico', '10000000001', '999000001', NULL, 'Lima, Perú', NULL, 'B001', 'F001', 18.00, 0, 0, 0, 0, 'PEN', '2026-04-17 18:00:45', '2026-04-17 18:00:45');
+INSERT INTO `taller_config` VALUES (1, 'Mi Taller Mecánico', '10000000001', '999000001', NULL, 'Lima, Perú', NULL, 'B001', 'F001', 18.00, 1, 0, 0, 1, 'PEN', '2026-04-17 18:00:45', '2026-04-25 17:37:41');
 
 -- ----------------------------
 -- Table structure for tecnicos
@@ -612,6 +732,7 @@ INSERT INTO `taller_config` VALUES (1, 'Mi Taller Mecánico', '10000000001', '99
 DROP TABLE IF EXISTS `tecnicos`;
 CREATE TABLE `tecnicos`  (
   `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `usuario_id` int UNSIGNED NULL DEFAULT NULL,
   `nombre` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `especialidad` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
   `telefono` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
@@ -621,16 +742,18 @@ CREATE TABLE `tecnicos`  (
   `activo` tinyint(1) NULL DEFAULT 1,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `usuario_id`(`usuario_id` ASC) USING BTREE,
+  CONSTRAINT `fk_tec_usuario` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of tecnicos
 -- ----------------------------
-INSERT INTO `tecnicos` VALUES (1, 'Carlos Ramírez', 'Motor y mecánica general', '987654321', NULL, 15.00, 1800.00, 1, '2026-04-17 18:00:45', '2026-04-17 18:00:45');
-INSERT INTO `tecnicos` VALUES (2, 'Luis Torres', 'Electricidad y diagnosis', '976543210', NULL, 12.00, 1600.00, 1, '2026-04-17 18:00:45', '2026-04-17 18:00:45');
-INSERT INTO `tecnicos` VALUES (3, 'Pedro Quispe', 'Frenos y suspensión', '965432109', NULL, 12.00, 1600.00, 1, '2026-04-17 18:00:45', '2026-04-17 18:00:45');
-INSERT INTO `tecnicos` VALUES (4, 'María Flores', 'Motos y general', '954321098', NULL, 10.00, 1400.00, 1, '2026-04-17 18:00:45', '2026-04-17 18:00:45');
+INSERT INTO `tecnicos` VALUES (1, NULL, 'Carlos Ramírez', 'Motor y mecánica general', '987654321', NULL, 15.00, 1800.00, 1, '2026-04-17 18:00:45', '2026-04-17 18:00:45');
+INSERT INTO `tecnicos` VALUES (2, NULL, 'Luis Torres', 'Electricidad y diagnosis', '976543210', NULL, 12.00, 1600.00, 1, '2026-04-17 18:00:45', '2026-04-17 18:00:45');
+INSERT INTO `tecnicos` VALUES (3, NULL, 'Pedro Quispe', 'Frenos y suspensión', '965432109', NULL, 12.00, 1600.00, 1, '2026-04-17 18:00:45', '2026-04-17 18:00:45');
+INSERT INTO `tecnicos` VALUES (4, 5, 'María Flores', 'Motos y general', '954321098', NULL, 10.00, 1400.00, 1, '2026-04-17 18:00:45', '2026-04-25 17:23:21');
 
 -- ----------------------------
 -- Table structure for usuarios
@@ -651,12 +774,16 @@ CREATE TABLE `usuarios`  (
   UNIQUE INDEX `username`(`username` ASC) USING BTREE,
   INDEX `rol_id`(`rol_id` ASC) USING BTREE,
   CONSTRAINT `usuarios_ibfk_1` FOREIGN KEY (`rol_id`) REFERENCES `roles` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of usuarios
 -- ----------------------------
-INSERT INTO `usuarios` VALUES (1, 1, 'Administrador', 'admin', 'admin@taller.com', '$2a$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewdBPj/oZ3VxjGrC', 1, NULL, '2026-04-17 18:00:45', '2026-04-17 18:00:45');
+INSERT INTO `usuarios` VALUES (1, 1, 'Administrador', 'admin', 'admin@taller.com', '$2a$12$ejvjeWzzU6oCogrHsPqzlu9KIf/hiDjPNDkKWfxxgsijp2rlIbFFm', 1, '2026-04-25 18:23:23', '2026-04-17 18:00:45', '2026-04-25 18:23:23');
+INSERT INTO `usuarios` VALUES (2, 4, 'Carlos Ramírez', 'carlos', 'carlos@taller.com', '$2a$12$D.J1InB8RO55CMOyTNfiC.rBRgpgTM3RMFvPg8B2FKYxdty.xKj9C', 1, '2026-04-25 17:29:42', '2026-04-25 17:23:16', '2026-04-25 17:29:42');
+INSERT INTO `usuarios` VALUES (3, 4, 'Luis Torres', 'luis', 'luis@taller.com', '$2a$12$D.J1InB8RO55CMOyTNfiC.rBRgpgTM3RMFvPg8B2FKYxdty.xKj9C', 1, NULL, '2026-04-25 17:23:16', '2026-04-25 17:29:28');
+INSERT INTO `usuarios` VALUES (4, 4, 'Pedro Quispe', 'pedro', 'pedro@taller.com', '$2a$12$D.J1InB8RO55CMOyTNfiC.rBRgpgTM3RMFvPg8B2FKYxdty.xKj9C', 1, NULL, '2026-04-25 17:23:16', '2026-04-25 17:29:28');
+INSERT INTO `usuarios` VALUES (5, 4, 'María Flores', 'maria', 'maria@taller.com', '$2a$12$D.J1InB8RO55CMOyTNfiC.rBRgpgTM3RMFvPg8B2FKYxdty.xKj9C', 1, NULL, '2026-04-25 17:23:16', '2026-04-25 17:29:28');
 
 -- ----------------------------
 -- Table structure for vehiculos
@@ -685,10 +812,60 @@ CREATE TABLE `vehiculos`  (
   INDEX `cliente_id`(`cliente_id` ASC) USING BTREE,
   INDEX `idx_placa`(`placa` ASC) USING BTREE,
   CONSTRAINT `vehiculos_ibfk_1` FOREIGN KEY (`cliente_id`) REFERENCES `clientes` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of vehiculos
 -- ----------------------------
+INSERT INTO `vehiculos` VALUES (1, 1, 'URYFD67', 'kia', 'Sorento', 2024, 'auto', 'Plomo', NULL, NULL, 'gasolina', 25000, NULL, 1, '2026-04-25 17:06:57', '2026-04-25 17:06:57');
+
+-- ----------------------------
+-- Table structure for wa_log
+-- ----------------------------
+DROP TABLE IF EXISTS `wa_log`;
+CREATE TABLE `wa_log`  (
+  `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `cliente_id` int UNSIGNED NOT NULL,
+  `ot_id` int UNSIGNED NULL DEFAULT NULL,
+  `mensaje` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `telefono` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
+  `usuario_id` int UNSIGNED NULL DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `cliente_id`(`cliente_id` ASC) USING BTREE,
+  INDEX `ot_id`(`ot_id` ASC) USING BTREE,
+  INDEX `usuario_id`(`usuario_id` ASC) USING BTREE,
+  CONSTRAINT `wa_log_ibfk_1` FOREIGN KEY (`cliente_id`) REFERENCES `clientes` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `wa_log_ibfk_2` FOREIGN KEY (`ot_id`) REFERENCES `ordenes_trabajo` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `wa_log_ibfk_3` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of wa_log
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for wa_plantillas
+-- ----------------------------
+DROP TABLE IF EXISTS `wa_plantillas`;
+CREATE TABLE `wa_plantillas`  (
+  `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `tipo` enum('ot_creada','presupuesto','en_proceso','listo','entregado','personalizado') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT 'personalizado',
+  `mensaje` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `activo` tinyint(1) NULL DEFAULT 1,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of wa_plantillas
+-- ----------------------------
+INSERT INTO `wa_plantillas` VALUES (1, 'OT Creada', 'ot_creada', 'Hola {cliente} ������\n\nHemos recibido su vehículo *{placa} - {marca} {modelo}*.\n\n������ OT: *{codigo}*\n������ Estado: En revisión\n\nSiga el progreso:\n{portal_url}', 1, '2026-04-25 17:50:45', '2026-04-25 17:50:45');
+INSERT INTO `wa_plantillas` VALUES (2, 'Presupuesto listo', 'presupuesto', 'Hola {cliente} ������\n\nTenemos el diagnóstico de su *{placa}*.\n\n������ OT: *{codigo}*\n������ Presupuesto: *{total_estimado}*\n\nVer detalle:\n{portal_url}', 1, '2026-04-25 17:50:45', '2026-04-25 17:50:45');
+INSERT INTO `wa_plantillas` VALUES (3, 'En reparación', 'en_proceso', 'Hola {cliente} ������\n\nSu vehículo *{placa}* está siendo reparado por *{tecnico}*.\n\nSiga el avance:\n{portal_url}', 1, '2026-04-25 17:50:45', '2026-04-25 17:50:45');
+INSERT INTO `wa_plantillas` VALUES (4, 'Vehículo listo', 'listo', 'Hola {cliente} ✅\n\n¡Su *{placa}* está listo!\n\n������ Total: *{total_real}*\n\nPuede pasar a recogerlo.\n{portal_url}', 1, '2026-04-25 17:50:45', '2026-04-25 17:50:45');
+INSERT INTO `wa_plantillas` VALUES (5, 'Entregado', 'entregado', 'Hola {cliente} ������\n\nGracias por confiar en nosotros. Su *{placa}* fue entregado. ¡Hasta la próxima!', 1, '2026-04-25 17:50:45', '2026-04-25 17:50:45');
 
 SET FOREIGN_KEY_CHECKS = 1;

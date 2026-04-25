@@ -52,6 +52,9 @@ app.use('/api/compras',    require('./routes/compras'));
 app.use('/api/reportes',   require('./routes/reportes'));
 app.use('/api/config',     require('./routes/configuracion'));
 app.use('/api/uploads',    require('./routes/uploads'));
+app.use('/api/roles',      require('./routes/roles'));
+app.use('/api/whatsapp',   require('./routes/whatsapp'));
+app.use('/api/portal',     require('./routes/portal'));
 
 /* ── SPA fallback ───────────────────────────────────────────────────────── */
 app.get('*', (req, res) => {
