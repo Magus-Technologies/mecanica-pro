@@ -1,4 +1,4 @@
-/* ── app.js ── Router principal ─────────────────────────────────────────── */
+/* ── app.js ── Router con permisos dinámicos ────────────────────────────── */
 
 const PAGES = {
   dashboard:  renderDashboard,
@@ -12,21 +12,34 @@ const PAGES = {
   caja:       renderCaja,
   compras:    renderCompras,
   reportes:   renderReportes,
+  whatsapp:   renderWhatsapp,
+  roles:      renderRoles,
   config:     renderConfig,
 };
 
-let currentPage = 'dashboard';
+let currentPage  = 'dashboard';
+let misPermisos  = {};
 
 async function init() {
   const token = localStorage.getItem('mp_token');
   const user  = JSON.parse(localStorage.getItem('mp_user') || 'null');
-
-  if (!token || !user) {
-    showLogin();
-    return;
-  }
+  if (!token || !user) { showLogin(); return; }
+  await cargarPermisos();
   showApp(user);
   navigateTo('dashboard');
+}
+
+async function cargarPermisos() {
+  const data = await Api.get('/roles/mis-permisos');
+  misPermisos = data?.data || {};
+  localStorage.setItem('mp_permisos', JSON.stringify(misPermisos));
+}
+
+function puedeVer(modulo) {
+  // admin siempre puede ver todo
+  const user = JSON.parse(localStorage.getItem('mp_user') || '{}');
+  if (user.role === 'admin') return true;
+  return !!misPermisos[modulo]?.ver;
 }
 
 function showLogin() {
@@ -40,22 +53,25 @@ function showApp(user) {
   document.getElementById('userName').textContent   = user.nombre;
   document.getElementById('userRole').textContent   = user.role;
   document.getElementById('userAvatar').textContent = user.nombre.charAt(0).toUpperCase();
+
+  // Aplicar permisos al sidebar
+  document.querySelectorAll('.nav-item[data-page]').forEach(el => {
+    const modulo = el.dataset.page;
+    el.style.display = puedeVer(modulo) ? '' : 'none';
+  });
 }
 
 function navigateTo(page) {
   if (!PAGES[page]) return;
+  if (!puedeVer(page)) { toast('Sin permisos para este módulo', 'warning'); return; }
   currentPage = page;
 
-  // Update nav
   document.querySelectorAll('.nav-item').forEach(el => {
     el.classList.toggle('active', el.dataset.page === page);
   });
-
-  // Close sidebar mobile
   document.getElementById('sidebar').classList.remove('open');
   document.getElementById('sidebarOverlay').classList.add('hidden');
 
-  // Render
   const container = document.getElementById('pageContainer');
   container.innerHTML = '';
   PAGES[page](container);
@@ -66,8 +82,7 @@ document.getElementById('loginForm').addEventListener('submit', async e => {
   e.preventDefault();
   const btn = document.getElementById('loginBtn');
   const err = document.getElementById('loginError');
-  btn.textContent = 'Ingresando…';
-  btn.disabled = true;
+  btn.textContent = 'Ingresando…'; btn.disabled = true;
   err.classList.add('hidden');
 
   const data = await Api.post('/auth/login', {
@@ -77,33 +92,31 @@ document.getElementById('loginForm').addEventListener('submit', async e => {
 
   if (data?.success) {
     localStorage.setItem('mp_token', data.token);
-    localStorage.setItem('mp_user', JSON.stringify(data.user));
+    localStorage.setItem('mp_user',  JSON.stringify(data.user));
+    await cargarPermisos();
     showApp(data.user);
     navigateTo('dashboard');
   } else {
     err.textContent = data?.message || 'Error al iniciar sesión';
     err.classList.remove('hidden');
   }
-  btn.textContent = 'Ingresar';
-  btn.disabled = false;
+  btn.textContent = 'Ingresar'; btn.disabled = false;
 });
 
 /* ── Logout ─────────────────────────────────────────────────────────────── */
 document.getElementById('logoutBtn').addEventListener('click', () => {
   localStorage.removeItem('mp_token');
   localStorage.removeItem('mp_user');
+  localStorage.removeItem('mp_permisos');
+  misPermisos = {};
   showLogin();
 });
 
-/* ── Nav clicks ─────────────────────────────────────────────────────────── */
+/* ── Nav ────────────────────────────────────────────────────────────────── */
 document.querySelectorAll('.nav-item').forEach(el => {
-  el.addEventListener('click', e => {
-    e.preventDefault();
-    navigateTo(el.dataset.page);
-  });
+  el.addEventListener('click', e => { e.preventDefault(); navigateTo(el.dataset.page); });
 });
 
-/* ── Hamburger ──────────────────────────────────────────────────────────── */
 document.getElementById('hamburgerBtn').addEventListener('click', () => {
   document.getElementById('sidebar').classList.toggle('open');
   document.getElementById('sidebarOverlay').classList.toggle('hidden');

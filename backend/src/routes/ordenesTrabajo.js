@@ -13,6 +13,18 @@ router.get('/', async (req, res) => {
     const search = `%${q}%`;
     const params = [search, search, search];
     let where = `ot.activo=1 AND (ot.codigo LIKE ? OR c.nombre LIKE ? OR v.placa LIKE ?)`;
+
+    // Si el rol es técnico, solo ve sus OTs asignadas
+    if (req.user.role === 'tecnico') {
+      const { rows: tRows } = await db.query(
+        `SELECT id FROM tecnicos WHERE usuario_id = ? LIMIT 1`, [req.user.id]
+      );
+      if (tRows.length) {
+        where += ` AND ot.tecnico_id = ?`;
+        params.push(tRows[0].id);
+      }
+    }
+
     if (estado) { where += ' AND ot.estado=?'; params.push(estado); }
     params.push(parseInt(limit), offset);
 
