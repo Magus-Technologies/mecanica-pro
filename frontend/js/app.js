@@ -9,6 +9,7 @@ const PAGES = {
   servicios:  renderServicios,
   tecnicos:   renderTecnicos,
   ventas:     renderVentas,
+  plantillas: renderPlantillas,
   caja:       renderCaja,
   compras:    renderCompras,
   reportes:   renderReportes,

@@ -6,7 +6,11 @@
 async function renderVentas(el) {
   el.innerHTML = `
     <div class="page-header"><h1 class="page-title">Ventas <span>/ Comprobantes</span></h1>
-      <button class="btn btn-orange" onclick="modalNuevaVenta()">+ Nuevo comprobante</button></div>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-ghost btn-sm" onclick="navigateTo('plantillas')">🖨️ Plantillas</button>
+        <button class="btn btn-orange" onclick="modalNuevaVenta()">+ Nuevo comprobante</button>
+      </div>
+    </div>
     <div class="card">
       <div class="table-wrap">
         <table>
@@ -30,7 +34,13 @@ async function loadVentas() {
       <td class="text-muted">${v.metodo_pago}</td>
       <td class="fw700">${fmtCurrency(v.total)}</td>
       <td class="text-muted">${fmtDatetime(v.fecha_emision)}</td>
-      <td>${!v.anulado ? `<button class="btn btn-danger btn-sm" onclick="anularVenta(${v.id},'${v.serie_numero}')">Anular</button>` : '<span class="text-muted">Anulado</span>'}</td>
+      <td style="display:flex;gap:4px;align-items:center">
+        ${!v.anulado ? `
+          <button class="btn btn-ghost btn-sm" onclick="imprimirComprobante(${v.id},'a4')" title="Imprimir A4">🖨️ A4</button>
+          <button class="btn btn-ghost btn-sm" onclick="imprimirComprobante(${v.id},'v80')" title="Imprimir 80mm">🧾 80mm</button>
+          <button class="btn btn-danger btn-sm" onclick="anularVenta(${v.id},'${v.serie_numero}')">Anular</button>
+        ` : '<span class="text-muted">Anulado</span>'}
+      </td>
     </tr>`).join('');
 }
 

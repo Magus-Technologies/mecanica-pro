@@ -55,6 +55,7 @@ app.use('/api/uploads',    require('./routes/uploads'));
 app.use('/api/roles',      require('./routes/roles'));
 app.use('/api/whatsapp',   require('./routes/whatsapp'));
 app.use('/api/portal',     require('./routes/portal'));
+app.use('/api/plantillas', require('./routes/plantillas'));
 
 /* ── SPA fallback ───────────────────────────────────────────────────────── */
 app.get('*', (req, res) => {
