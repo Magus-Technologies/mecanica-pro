@@ -47,6 +47,7 @@ app.use('/api/servicios',  require('./routes/servicios'));
 app.use('/api/repuestos',  require('./routes/repuestos'));
 app.use('/api/tecnicos',   require('./routes/tecnicos'));
 app.use('/api/ventas',     require('./routes/ventas'));
+app.use('/api/sunat',      require('./routes/sunat'));
 app.use('/api/caja',       require('./routes/caja'));
 app.use('/api/compras',    require('./routes/compras'));
 app.use('/api/reportes',   require('./routes/reportes'));
